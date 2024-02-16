@@ -6,7 +6,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class MyJobBatch {
 
     private final JobBuilderFactory jobBuilderFactory;
@@ -17,11 +17,11 @@ public class MyJobBatch {
         this.myJobStep = myJobStep;
     }
 
-    @Bean
+//    @Bean
     public Job myJob() {
         System.out.println("* * * * * * * Run myJob");
         return jobBuilderFactory.get("myJob")
-            .start(myJobStep.myStep2())
+            .start(myJobStep.myStep1())
             .build();
     }
 
