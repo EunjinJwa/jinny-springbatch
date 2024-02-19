@@ -24,19 +24,6 @@ public class ChunkProcessJobConfig {
         this.stepBuilderFactory = stepBuilderFactory;
     }
 
-
-    @Bean
-    public Step chunkProcessStep(ItemReader<Integer> itemReader,
-                                    ItemProcessor<Integer, String> itemProcessor,
-                                    ItemWriter<String> itemWriter) {
-        return stepBuilderFactory.get("chunkProcessStep")
-            .<Integer, String>chunk(3) // cunk size 3
-            .reader(itemReader)
-            .processor(itemProcessor)
-            .writer(itemWriter)
-            .build();
-    }
-
     @Bean
     public ItemReader<Integer> itemReader() {
         System.out.println("Run reader");
@@ -70,6 +57,18 @@ public class ChunkProcessJobConfig {
     public Job chunkProcessJob(Step chunkProcessStep) {
         return jobBuilderFactory.get("chunkProcessJob")
             .start(chunkProcessStep)
+            .build();
+    }
+
+    @Bean
+    public Step chunkProcessStep(ItemReader<Integer> itemReader,
+        ItemProcessor<Integer, String> itemProcessor,
+        ItemWriter<String> itemWriter) {
+        return stepBuilderFactory.get("chunkProcessStep")
+            .<Integer, String>chunk(3) // cunk size 3
+            .reader(itemReader)
+            .processor(itemProcessor)
+            .writer(itemWriter)
             .build();
     }
 
